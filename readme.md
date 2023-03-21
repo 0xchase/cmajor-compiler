@@ -7,3 +7,7 @@ This project doesn't exist yet it's just a potential excuse for me to learn Hask
  - Works
  - Doesn't have bugs
  - :)
+
+Arrangement Library
+ - A Haskell library to compose by arranging DSL
+ - Use concepts from category theory for composition
