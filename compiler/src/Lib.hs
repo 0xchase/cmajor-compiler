@@ -30,7 +30,7 @@ data Statement = Expr Expr
     | Return Expr
     | If Expr Statement Statement
     | For Expr Expr Expr Statement
-    | while Expr Statement
+    | While Expr Statement
     deriving (Show, Eq)
 
 data Type = Pointer Type
