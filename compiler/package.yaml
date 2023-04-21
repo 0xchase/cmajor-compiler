@@ -1,14 +1,12 @@
-name:                compiler
+name:                compiler2
 version:             0.1.0.0
-github:              "githubuser/compiler"
+github:              "githubuser/compiler2"
 license:             BSD3
 author:              "Author name here"
 maintainer:          "example@example.com"
 copyright:           "2023 Author name here"
 
-extra-source-files:
-- README.md
-- CHANGELOG.md
+# extra-source-files:
 
 # Metadata used when publishing your package
 # synopsis:            Short description of your package
@@ -17,11 +15,12 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/githubuser/compiler#readme>
+description:         Please see the README on GitHub at <https://github.com/githubuser/compiler2#readme>
 
 dependencies:
 - base >= 4.7 && < 5
-- text
+- llvm-tf
+- llvm-ffi
 
 ghc-options:
 - -Wall
@@ -38,7 +37,7 @@ library:
   source-dirs: src
 
 executables:
-  compiler-exe:
+  compiler2-exe:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
@@ -46,10 +45,10 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - compiler
+    - compiler2
 
 tests:
-  compiler-test:
+  compiler2-test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
@@ -57,4 +56,4 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - compiler
+    - compiler2

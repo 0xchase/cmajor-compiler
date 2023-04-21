@@ -3,11 +3,25 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    hackage: llvm-tf-12.0.0.1@sha256:7907c46c5100d444b3b229dc5c673c84fbe9189bb3d599a60182bf620daeeda5,6417
+    pantry-tree:
+      sha256: ece237f8eb6713c919fa713c9b4ac970a1318aabe7420b803a9f076b78d790d2
+      size: 3108
+  original:
+    hackage: llvm-tf-12.0.0.1
+- completed:
+    hackage: llvm-ffi-12.0@sha256:b867cb65b01a8e412f9b087281688c23fded56472c63ac481decb7702118be69,11683
+    pantry-tree:
+      sha256: 3d7c3a11628a9e8011e200608dce9caa82f600733a760dbfbae1af0938e79ec4
+      size: 3007
+  original:
+    hackage: llvm-ffi-12.0
 snapshots:
 - completed:
-    sha256: 14ca51a9a597c32dd7804c10d079feea3d0ae40c5fbbb346cbd67b3ae49f6d01
-    size: 649598
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/20/17.yaml
+    sha256: 9fa4bece7acfac1fc7930c5d6e24606004b09e80aa0e52e9f68b148201008db9
+    size: 649606
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/20/18.yaml
   original:
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/20/17.yaml
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/20/18.yaml
