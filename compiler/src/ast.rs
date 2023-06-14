@@ -1,44 +1,24 @@
-use std::fmt;
+#[derive(Debug)]
+pub enum Expr {
+    Num(f64),
+    Var(String),
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub enum Operator {
-    Plus,
-    Minus,
-    Multiply,
-    Divide
-}
+    Neg(Box<Expr>),
+    Add(Box<Expr>, Box<Expr>),
+    Sub(Box<Expr>, Box<Expr>),
+    Mul(Box<Expr>, Box<Expr>),
+    Div(Box<Expr>, Box<Expr>),
 
-impl fmt::Display for Operator {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
-        match &self {
-            Operator::Plus => write!(f, "+"),
-            Operator::Minus => write!(f, "-"),
-            Operator::Multiply => write!(f, "*"),
-            Operator::Divide => write!(f, "/"),
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum Node {
-    Int(i32),
-    UnaryExpr {
-        op: Operator,
-        child: Box<Node>,
+    Call(String, Vec<Expr>),
+    Let {
+        name: String,
+        rhs: Box<Expr>,
+        then: Box<Expr>,
     },
-    BinaryExpr {
-        op: Operator,
-        lhs: Box<Node>,
-        rhs: Box<Node>,
+    Fn {
+        name: String,
+        args: Vec<String>,
+        body: Box<Expr>,
+        then: Box<Expr>,
     },
-}
-
-impl fmt::Display for Node {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
-        match &self {
-            Node::Int(n) => write!(f, "{}", n),
-            Node::UnaryExpr { op, child } => write!(f, "{}{}", op, child),
-            Node::BinaryExpr { op, lhs, rhs } => write!(f, "{} {} {}", lhs, op, rhs),
-        }
-    }
 }

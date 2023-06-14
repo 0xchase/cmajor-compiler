@@ -1,9 +1,10 @@
 use inkwell::{
-    builder::Builder, context::Context, execution_engine::JitFunction, types::IntType,
+    builder::Builder, context::Context, execution_engine::JitFunction,
+    types::IntType,
     values::AnyValue, values::IntValue, OptimizationLevel,
 };
 
-use crate::{Compile, Node, Operator, Result};
+/*use crate::{Compile, Node, Operator, Result};
 
 type JitFunc = unsafe extern "C" fn() -> i32;
 
@@ -35,6 +36,7 @@ impl Compile for Jit {
             let return_value = recursive_builder.build(&node);
             builder.build_return(Some(&return_value));
         }
+
         println!(
             "Generated LLVM IR: {}",
             function.print_to_string().to_string()
@@ -57,9 +59,11 @@ impl<'a> RecursiveBuilder<'a> {
     pub fn new(i32_type: IntType<'a>, builder: &'a Builder) -> Self {
         Self { i32_type, builder }
     }
+
     pub fn build(&self, ast: &Node) -> IntValue {
         match ast {
             Node::Int(n) => self.i32_type.const_int(*n as u64, true),
+            Node::Bool(b) => self.i32_type.const_int(if *b { 1 } else { 0 }, false),
             Node::UnaryExpr { op, child } => {
                 let child = self.build(child);
                 match op {
@@ -67,6 +71,8 @@ impl<'a> RecursiveBuilder<'a> {
                     Operator::Plus => child,
                     Operator::Multiply => child,
                     Operator::Divide => child,
+                    Operator::And => child,
+                    Operator::Or => child
                 }
             }
             Node::BinaryExpr { op, lhs, rhs } => {
@@ -77,7 +83,9 @@ impl<'a> RecursiveBuilder<'a> {
                     Operator::Plus => self.builder.build_int_add(left, right, "plus_temp"),
                     Operator::Minus => self.builder.build_int_sub(left, right, "minus_temp"),
                     Operator::Multiply => self.builder.build_int_mul(left, right, "multiply_temp"),
-                    Operator::Divide => self.builder.build_int_unsigned_div(left, right, "divide_temp"),
+                    Operator::Divide => self.builder.build_int_signed_div(left, right, "divide_temp"),
+                    Operator::And => self.builder.build_and(left, right, "and_temp"),
+                    Operator::Or => self.builder.build_or(left, right, "or_temp"),
                 }
             }
         }
@@ -99,3 +107,4 @@ mod tests {
         // assert_eq!(Jit::from_source("2 + 3 - 1").unwrap(), 4);
     }
 }
+*/

@@ -1,13 +1,11 @@
 ### Read Me
 
-This project doesn't exist yet it's just a potential excuse for me to learn Haskell.
+This project doesn't exist yet. It will be a compiler for cmajor written in Rust.
 
-### Design
- - Written in Haskell using LLVM-JIT
- - Works
- - Doesn't have bugs
- - :)
+### Resources
+ - A good article on parsing is [here](https://tratt.net/laurie/blog/2020/which_parsing_approach.html)
+ - Potential parsing libraries
+   - PEG
+   - lalrpop
+   - chumsky
 
-Arrangement Library
- - A Haskell library to compose by arranging DSL
- - Use concepts from category theory for composition
