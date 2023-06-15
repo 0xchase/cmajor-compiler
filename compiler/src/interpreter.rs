@@ -1,4 +1,6 @@
-fn eval(expr: &Expr) -> Result<f64, String> {
+use crate::ast::Expr;
+
+pub fn eval(expr: &Expr) -> Result<f64, String> {
     match expr {
         Expr::Num(x) => Ok(*x),
         Expr::Neg(a) => Ok(-eval(a)?),

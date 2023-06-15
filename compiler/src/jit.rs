@@ -1,19 +1,17 @@
 use inkwell::{
     builder::Builder, context::Context, execution_engine::JitFunction,
-    types::IntType,
-    values::AnyValue, values::IntValue, OptimizationLevel,
+    types::IntType, types::FloatType,
+    values::{AnyValue, FloatValue}, values::IntValue, OptimizationLevel,
 };
 
-/*use crate::{Compile, Node, Operator, Result};
+use crate::ast::Expr;
 
 type JitFunc = unsafe extern "C" fn() -> i32;
 
 pub struct Jit;
 
-impl Compile for Jit {
-    type Output = Result<i32>;
-
-    fn from_ast(ast: Vec<Node>) -> Self::Output {
+impl Jit {
+    fn from_ast(ast: Vec<Expr>) -> Result<i32, String> {
         let context = Context::create();
         let module = context.create_module("calculator");
 
@@ -24,6 +22,7 @@ impl Compile for Jit {
             .unwrap();
 
         let i32_type = context.i32_type();
+        let f64_type = context.f64_type();
         let fn_type = i32_type.fn_type(&[], false);
 
         let function = module.add_function("jit", fn_type, None);
@@ -32,7 +31,7 @@ impl Compile for Jit {
         builder.position_at_end(basic_block);
 
         for node in ast {
-            let recursive_builder = RecursiveBuilder::new(i32_type, &builder);
+            let recursive_builder = RecursiveBuilder::new(i32_type, f64_type, &builder);
             let return_value = recursive_builder.build(&node);
             builder.build_return(Some(&return_value));
         }
@@ -52,16 +51,32 @@ impl Compile for Jit {
 
 struct RecursiveBuilder<'a> {
     i32_type: IntType<'a>,
+    f64_type: FloatType<'a>,
     builder: &'a Builder<'a>,
 }
 
 impl<'a> RecursiveBuilder<'a> {
-    pub fn new(i32_type: IntType<'a>, builder: &'a Builder) -> Self {
-        Self { i32_type, builder }
+    pub fn new(i32_type: IntType<'a>, f64_type: FloatType<'a>, builder: &'a Builder) -> Self {
+        Self { i32_type, f64_type, builder }
     }
 
-    pub fn build(&self, ast: &Node) -> IntValue {
-        match ast {
+    pub fn build(&self, ast: &Expr) -> FloatValue<'a> {
+        let value = match ast {
+            Expr::Num(f) => self.f64_type.const_float(*f),
+            Expr::Var(n) => todo!(),
+            Expr::Neg(n) => todo!(),
+            Expr::Add(a, b) => todo!(),
+            Expr::Sub(a, b) => todo!(),
+            Expr::Mul(a, b) => todo!(),
+            Expr::Div(a, b) => todo!(),
+            Expr::Call(n, e) => todo!(),
+            Expr::Let { name, rhs, then } => todo!(),
+            Expr::Fn { name, args, body, then } => todo!(),
+        };
+
+        return FloatValue::from(value);
+
+        /*match ast {
             Node::Int(n) => self.i32_type.const_int(*n as u64, true),
             Node::Bool(b) => self.i32_type.const_int(if *b { 1 } else { 0 }, false),
             Node::UnaryExpr { op, child } => {
@@ -88,23 +103,6 @@ impl<'a> RecursiveBuilder<'a> {
                     Operator::Or => self.builder.build_or(left, right, "or_temp"),
                 }
             }
-        }
+        }*/
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn basics() {
-        assert_eq!(Jit::from_source("1 + 2").unwrap(), 3);
-        assert_eq!(Jit::from_source("2 + (2 - 1)").unwrap(), 3);
-        assert_eq!(Jit::from_source("(2 + 3) - 1").unwrap(), 4);
-        assert_eq!(Jit::from_source("1 + ((2 + 3) - (2 + 3))").unwrap(), 1);
-        assert_eq!(Jit::from_source("(1 + 2)").unwrap(), 3);
-        // parser fails
-        // assert_eq!(Jit::from_source("2 + 3 - 1").unwrap(), 4);
-    }
-}
-*/

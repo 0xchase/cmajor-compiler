@@ -3,7 +3,7 @@ use pest_derive::*;*/
 
 mod ast;
 mod parser;
-// pub mod interpreter;
+pub mod interpreter;
 pub mod jit;
 
 use chumsky::Parser;
@@ -23,30 +23,22 @@ fn main() {
     println!("Parsing the source:");
     println!("{}", source);
 
-    println!("AST:");
-    println!("{:?}", parser::parser().parse(source));
+    match parser::parser().parse(source) {
+        Ok(ast) => {
+            println!("AST:");
+            println!("{:?}", &ast);
+            match interpreter::eval(&ast) {
+                Ok(v) => println!("Eval: {}", v),
+                Err(e) => println!("Eval error: {}", e)
+            }
+        },
+        Err(errs) => {
+            for e in errs {
+                println!("{}", e);
+            }
+        }
+    }
 
     // let jit = Jit::from_source(&source).unwrap();
     // println!("Got value {}", jit);
 }
-
-pub type Result<T> = anyhow::Result<T>;
-
-/*pub trait Compile {
-    type Output;
-
-    fn from_ast(ast: Vec<Node>) -> Self::Output;
-
-    fn from_source(source: &str) -> Self::Output {
-        parser::parse(source);
-
-
-        panic!("JIT not implemented");
-        /*if let Ok(ast) = parser::parse(source) {
-            println!("{:?}", ast);
-            Self::from_ast(ast)
-        } else {
-            panic!("Failed to parse source");
-        }*/
-    }
-}*/
